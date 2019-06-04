@@ -26,7 +26,7 @@ public class Automato {
     private List<String> conjuntoEstados;
     private String estadoInicial;
     private String nomeTag;
-    private List<Transicao> conjuntoTransicao;
+    //private List<Transicao> conjuntoTransicao;
 
     Automato(String tag, String expressao) {
         this.tag = tag;
@@ -36,25 +36,23 @@ public class Automato {
     }
 
     void ReconheceAlfabeto() {
-        list<Character>::iterator it;
         for (int i = 0; i < expressao.length(); i++) {
-            if (expressao[i] != '+' && expressao[i] != '.' && expressao[i] != '*' && expressao[i] != '\\') {
-                alfabeto.push_back(expressao[i]);
+            if (expressao.charAt(i) != '+' && expressao.charAt(i) != '.' && expressao.charAt(i) != '*' && expressao.charAt(i) != '\\') {
+                alfabeto.add(expressao.charAt(i));
             }
         }
-        alfabeto.sort();
-        alfabeto.unique();
-
+        Collections.sort(alfabeto);
+        //alfabeto.distinct();
     }
 
     boolean ValidaExpressao() {
-        Stack<String> pilha;
+        Stack<String> pilha = new Stack<String>();
         int i = 0;
         boolean valida = true;
-
-        while (expressao[i] != '\0') {
+        
+        while (expressao.charAt(i) != '\0') {
             String aux = "";
-            aux += expressao[i];
+            aux += expressao.charAt(i);
             if (aux == "\\") {
 
             } else if (aux != "+" && aux != "." && aux != "*") {
@@ -63,16 +61,14 @@ public class Automato {
                 String a;
                 String b;
                 if (!pilha.empty()) {
-                    a = pilha.top();
-                    pilha.pop();
+                    a = pilha.pop();
                 } else {
                     valida = false;
                     break;
                 }
 
                 if (!pilha.empty()) {
-                    b = pilha.top();
-                    pilha.pop();
+                    b = pilha.pop();
                 } else {
                     valida = false;
                     break;
@@ -82,16 +78,14 @@ public class Automato {
                 String a;
                 String b;
                 if (!pilha.empty()) {
-                    a = pilha.top();
-                    pilha.pop();
+                    a = pilha.pop();
                 } else {
                     valida = false;
                     break;
                 }
 
                 if (!pilha.empty()) {
-                    b = pilha.top();
-                    pilha.pop();
+                    b = pilha.pop();
                 } else {
                     valida = false;
                     break;
@@ -100,8 +94,7 @@ public class Automato {
             } else if (aux == "*") {
                 String a;
                 if (!pilha.empty()) {
-                    a = pilha.top();
-                    pilha.pop();
+                    a = pilha.pop();
                 } else {
                     valida = false;
                     break;
@@ -113,8 +106,7 @@ public class Automato {
         String expressao2;
         if (!pilha.empty()) {
             // Teste: cout << expressao2 << endl;
-            expressao2 = pilha.top();
-            pilha.pop();
+            expressao2 = pilha.pop();
         }
         if (pilha.empty() && valida) {
             //Teste: cout << "Expressao: " << expressao2 << endl;
@@ -125,9 +117,8 @@ public class Automato {
     }
     
     void ExibirAlfabeto(){
-    list<Character>::iterator it;
-    for(it = alfabeto.begin(); it != alfabeto.end(); it++){
-        System.out.println(it+"");
+    for(int i = 0; i < alfabeto.size(); i++){
+        System.out.println(i + "");
     }
         System.out.println("");
 }
