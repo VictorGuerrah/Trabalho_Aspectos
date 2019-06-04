@@ -4,39 +4,51 @@
  * and open the template in the editor.
  */
 package aspectos;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Array;
+
 import java.util.Scanner;
-import java.util.*;
-import java.util.List;
-import java.util.ArrayList;
 
 /**
  *
- * @author pedro
+ * @author reisd
  */
 public class Menu {
     
-    List <Integer>list;
-    
-    Stack pilha = new Stack(); // Classe Pilha
-    
-    
-    
-    public static void main(String[] args) throws IOException 
-    {
+    Menu(){
         
-        System.out.println("TESTE");
-        Scanner teclado=new Scanner(System.in);
-        FileWriter arquivo=new FileWriter("arquivo11.txt");
-        PrintWriter escreve=new PrintWriter(arquivo);
+    }
+    
+    public int EscolheComando(String comando){
+        int i = 0;
+        if(comando.charAt(i) == ':'){
+            i++;
+            if(comando.charAt(i) == 'f'){
+                i++;
+            }
+            if(comando.charAt(i) == 'l'){
+            
+            }
+            if(comando.charAt(i) == 'o'){
+            
+            }
+            if(comando.charAt(i) == 'p'){
+            
+            }
+            if(comando.charAt(i) == 'q'){
+            
+            }
+            if(comando.charAt(i) == 's'){
+            
+            }
+        }
         
-        escreve.println("DADOS DENTRO DO TXT");
-        escreve.println(99);
-        escreve.println("32323232");
-        
-        escreve.close();
+        String a;
+        return 0;
+    }
+    
+    public void Start(){
+        String comando = "";
+        Scanner input = new Scanner(System.in);
+        comando = input.nextLine();
+        int comandoEscolhido;
     }
 }
