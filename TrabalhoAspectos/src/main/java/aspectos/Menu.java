@@ -17,7 +17,7 @@ public class Menu {
         
     }
     
-    public int EscolheComando(String comando){
+    public int escolherComando(String comando){
         int i = 0;
         if(comando.charAt(i) == ':'){
             i++;
@@ -34,7 +34,7 @@ public class Menu {
             
             }
             if(comando.charAt(i) == 'q'){
-            
+                
             }
             if(comando.charAt(i) == 's'){
             
@@ -48,7 +48,11 @@ public class Menu {
     public void Start(){
         String comando = "";
         Scanner input = new Scanner(System.in);
-        comando = input.nextLine();
-        int comandoEscolhido;
+        while(true){
+            System.out.println("Digite o comando:");
+            comando = input.nextLine();
+            Comandos comandos = new Comandos();
+            comandos.escolherComando(comando);
+        }
     }
 }

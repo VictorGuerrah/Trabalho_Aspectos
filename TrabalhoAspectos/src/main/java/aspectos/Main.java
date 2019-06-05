@@ -28,6 +28,9 @@ public class Main {
     public static void main(String[] args) throws IOException 
     {
         
+        Menu menu = new Menu();
+        menu.Start();
+        /*
         System.out.println("TESTE");
         Scanner teclado = new Scanner(System.in);
         FileWriter arquivo = new FileWriter("arquivo11.txt");
@@ -37,6 +40,6 @@ public class Main {
         escreve.println(99);
         escreve.println("32323232");
         
-        escreve.close();
+        escreve.close();*/
     }
 }
