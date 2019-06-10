@@ -28,8 +28,8 @@ public class Main {
     public static void main(String[] args) throws IOException 
     {
         
-        Menu menu = new Menu();
-        menu.Start();
+        Manager manager = new Manager();
+        manager.Start();
         /*
         System.out.println("TESTE");
         Scanner teclado = new Scanner(System.in);

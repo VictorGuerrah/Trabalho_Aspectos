@@ -5,6 +5,8 @@
  */
 package aspectos;
 
+import java.util.List;
+
 /**
  *
  * @author reisd
@@ -15,7 +17,7 @@ public class Comandos {
         
     }
     
-    public void escolherComando(String comando){
+    public void realizarComando(String comando, List<Tag> tags){
         int i = 0;
         String complemento = "";
         if(comando.length() >= 2){
@@ -26,6 +28,12 @@ public class Comandos {
                     i++;
                     if(comando.length() == 2 || (comando.length() == 3 && comando.charAt(i) == ' ')){
                         sair();
+                    }
+                }
+                else if(tipo == 'a'){
+                    System.out.println(tags.size());
+                    for(int j = 0; j < tags.size(); j++){
+                        tags.get(j).exibirTag();
                     }
                 }
                 i++;
@@ -41,21 +49,22 @@ public class Comandos {
                 else{
                     System.out.println("Comando inexistente");
                 }
+                
+                
                 //
                 if(tipo == 'f'){
                     
                 }
-                if(tipo == 'l'){
+                else if(tipo == 'l'){
 
                 }
-                if(tipo == 'o'){
+                else if(tipo == 'o'){
 
                 }
-                if(tipo == 'p'){
+                else if(tipo == 'p'){
 
                 }
-
-                if(tipo == 's'){
+                else if(tipo == 's'){
 
                 }
                 else{
@@ -69,7 +78,8 @@ public class Comandos {
                     String tag = array[0];
                     String expressaoRegular = array[1];
                     System.out.println("Nome da tag: " + tag); 
-                    System.out.println("Exepressao: " + expressaoRegular);
+                    System.out.println("Exepressao: " + expressaoRegular + "\n");
+                    criarTag(tag, expressaoRegular, tags);
                 }
             }
         }
@@ -101,7 +111,8 @@ public class Comandos {
         
     }
     
-    public void criarTag(String tag, String expressao){
-        
+    public void criarTag(String nome, String expressao, List<Tag> tags){
+        Tag tag = new Tag(nome, expressao);
+        tags.add(tag);
     }    
 }
