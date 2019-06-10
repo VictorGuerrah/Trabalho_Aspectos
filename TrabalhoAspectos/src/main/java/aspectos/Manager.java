@@ -5,6 +5,7 @@
  */
 package aspectos;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
@@ -20,13 +21,13 @@ public class Manager {
         tags = new ArrayList<Tag>();
     }
     
-    public void Start(){
+    public void Start() throws IOException{
         String comando = "";
         Scanner input = new Scanner(System.in);
+        Comandos comandos = new Comandos();
         while(true){
             System.out.println("Digite o comando:");
             comando = input.nextLine();
-            Comandos comandos = new Comandos();
             comandos.realizarComando(comando, tags);
             System.out.println("Tamanho de tags: " + tags.size());
         }

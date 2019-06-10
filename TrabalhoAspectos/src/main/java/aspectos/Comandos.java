@@ -5,6 +5,11 @@
  */
 package aspectos;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.List;
 
 /**
@@ -17,7 +22,7 @@ public class Comandos {
         
     }
     
-    public void realizarComando(String comando, List<Tag> tags){
+    public void realizarComando(String comando, List<Tag> tags) throws IOException{
         int i = 0;
         String complemento = "";
         if(comando.length() >= 2){
@@ -44,6 +49,7 @@ public class Comandos {
                     i++;
                     while(i < comando.length()){
                         complemento += comando.charAt(i);
+                        i++;
                     }
                 }
                 else{
@@ -56,7 +62,8 @@ public class Comandos {
                     
                 }
                 else if(tipo == 'l'){
-
+                    System.out.println("Complemento: " + complemento);
+                    carregarTags(complemento, tags);
                 }
                 else if(tipo == 'o'){
 
@@ -73,14 +80,8 @@ public class Comandos {
             }
             //Criação de tag
             else{
-                String array[] = comando.split(": ");
-                if(array.length == 2){
-                    String tag = array[0];
-                    String expressaoRegular = array[1];
-                    System.out.println("Nome da tag: " + tag); 
-                    System.out.println("Exepressao: " + expressaoRegular + "\n");
-                    criarTag(tag, expressaoRegular, tags);
-                }
+                criarTag(comando, tags);
+                
             }
         }
 
@@ -95,8 +96,15 @@ public class Comandos {
         System.exit(0);
     }
     
-    public void carregarTags(){
+    public void carregarTags(String complemento, List<Tag> tags) throws FileNotFoundException, IOException{
         
+        File file = new File(complemento);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String str;
+        while((str = br.readLine()) != null){
+            System.out.println(str);
+            criarTag(str, tags);
+        }
     }
     
     public void salvarTags(){
@@ -111,8 +119,29 @@ public class Comandos {
         
     }
     
-    public void criarTag(String nome, String expressao, List<Tag> tags){
-        Tag tag = new Tag(nome, expressao);
-        tags.add(tag);
+    public void criarTag(String input, List<Tag> tags){
+        System.out.println("Expressao: " + input);
+        String array[] = input.split(": ");
+        String nome;
+        String expressao;
+        if(array.length == 2){
+            nome = array[0];
+            expressao = array[1];
+            System.out.println("Nome da tag: " + nome); 
+            System.out.println("Exepressao: " + expressao);
+             Tag tag = new Tag(nome, expressao);
+            if(tag.validarExpressao()){
+                System.out.println("Expressao aceita\n");
+                tags.add(tag);
+            }
+            else{
+                System.out.println("Expressao rejeitada\n");
+            }
+        }
+        else{
+            System.out.println("Expressao rejeitada\n");
+        }
+       
+        
     }    
 }
