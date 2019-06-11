@@ -9,6 +9,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.util.List;
 
@@ -72,7 +73,8 @@ public class Comandos {
 
                 }
                 else if(tipo == 's'){
-
+                    System.out.println("Complemento: " + complemento);
+                    salvarTags(complemento, tags);
                 }
                 else{
                     System.out.println("Comando incorreto");
@@ -107,8 +109,12 @@ public class Comandos {
         }
     }
     
-    public void salvarTags(){
-        
+    public void salvarTags(String complemento, List<Tag> tags) throws FileNotFoundException, IOException{
+        FileWriter file =  new FileWriter(complemento);
+        for (int i = 0; i < tags.size(); i++) {
+            file.write(tags.get(i).getTag() + "\n");
+        }
+        file.close();
     }
     
     public void classificarStringsDeArquivo(){

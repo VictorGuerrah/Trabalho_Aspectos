@@ -14,16 +14,23 @@ import java.util.Stack;
 public class Tag {
     String nome;
     String expressao;
+    String expressao2;
 
     
     
     Tag(String nome, String expressao){
         this.nome = nome;
         this.expressao = expressao;
+        this.expressao2 = null;
     }
     
     public void exibirTag(){
         System.out.println("Nome: " + nome + "  Expressao: " + expressao);
+        System.out.println("Expressao2: " + expressao2 + "\n");
+    }
+    
+    public String getTag(){
+        return nome + ": " + expressao;
     }
     
     public boolean validarExpressao(){
@@ -46,7 +53,7 @@ public class Tag {
                     valida = false;
                     break;
                 }
-                pilha.push("(" + a + ")");
+                pilha.push("(" + a + ")*");
             }
             else{
                 String a = null;
@@ -66,17 +73,17 @@ public class Tag {
                     break;
                 }
                 if("+".equals(aux)){
-                    pilha.push(a + "+" + b);
+                    pilha.push(b + "+" + a);
                 }
                 else{
-                    pilha.push(a + "" + b);
+                    pilha.push(b + "" + a);
                 }
             }
             i++;
         }
         if(!pilha.empty()){
             aux = (String) pilha.pop();
-            this.expressao = aux;
+            this.expressao2 = aux;
         }
         if(!pilha.empty())
             valida = false;
