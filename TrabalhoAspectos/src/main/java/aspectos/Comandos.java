@@ -127,14 +127,21 @@ public class Comandos {
         if(array.length == 2){
             nome = array[0];
             expressao = array[1];
-            System.out.println("Nome da tag: " + nome); 
-            System.out.println("Exepressao: " + expressao);
-             Tag tag = new Tag(nome, expressao);
-            if(tag.validarExpressao()){
-                System.out.println("Expressao aceita\n");
-                tags.add(tag);
+            expressao = expressao.replace(" ", "");
+            if(!expressao.isEmpty()){
+                System.out.println("Nome da tag: " + nome); 
+                System.out.println("Exepressao: " + expressao);
+                 Tag tag = new Tag(nome, expressao);
+                if(tag.validarExpressao()){
+                    System.out.println("Expressao aceita\n");
+                    tags.add(tag);
+                }
+                else{
+                    System.out.println("Expressao rejeitada\n");
+                }
             }
-            else{
+            else
+            {
                 System.out.println("Expressao rejeitada\n");
             }
         }
