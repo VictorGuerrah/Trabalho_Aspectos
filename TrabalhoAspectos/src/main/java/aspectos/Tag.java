@@ -5,6 +5,7 @@
  */
 package aspectos;
 
+import java.util.List;
 import java.util.Stack;
 
 /**
@@ -31,6 +32,10 @@ public class Tag {
     
     public String getTag(){
         return nome + ": " + expressao;
+    }
+    
+    public String getExpressao(){
+        return this.expressao;
     }
     
     public boolean validarExpressao(){
@@ -90,7 +95,43 @@ public class Tag {
         return valida;
     }
     
-    
+    public void criarAutomato(){
+        if(expressao != null){
+            Stack pilha = new Stack();
+            int i = 0;
+            String aux;
+            while(i != expressao.length()){
+                aux = "";
+                aux += expressao.charAt(i);
+                if(!"+".equals(aux) && !".".equals(aux) && !"*".equals(aux)){
+                    Estado estadoInicial = new Estado();
+                    Estado estadoFinal = new Estado();
+                    estadoInicial.estadoInicial = true;
+                    estadoFinal.estadoFinal = true;
+                    estadoInicial.criarTransicao(aux, estadoFinal);
+                    Automato automato = new Automato(estadoInicial);
+                    pilha.push(automato);
+                }
+                else if("+".equals(aux)){
+                    Automato aux1;
+                    Automato aux2;
+                    if(pilha.size() >= 2){
+                        aux1 = (Automato) pilha.pop();
+                        aux2 = (Automato) pilha.pop();
+                        Estado estadoInicial = new Estado();
+                        Estado estadoFinal = new Estado();
+                        estadoInicial.estadoInicial = true;
+                        estadoFinal.estadoFinal = true;
+                        List<Estado> estadosIniciais = aux1.estadosIniciais;
+                    }
+                    else{
+                        
+                    }
+                }
+                i++;
+            }
+        }
+    }
     
     
 }

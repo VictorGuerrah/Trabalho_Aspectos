@@ -20,118 +20,53 @@ import java.util.ArrayList;
  */
 public class Automato {
 
-    private String tag;
-    private String expressao;
+    //private String tag;
+    //private String expressao;
     private List<Character> alfabeto;
-    private List<String> conjuntoEstados;
-    private String estadoInicial;
+    private List<Estado> conjuntoEstados;
+    public List<Estado> estadosIniciais;
+    public List<Estado> estadosFinais;
     private String nomeTag;
+    private Tag tag = null;
     //private List<Transicao> conjuntoTransicao;
 
-    Automato(String tag, String expressao) {
+    Automato(Tag tag) {
         this.tag = tag;
-        this.expressao = expressao;
-        ReconheceAlfabeto();
 
     }
-
+    Automato(Estado estadoInicial){
+        this.estadosIniciais.add(estadoInicial);
+    }
+    
+    private void criarAtuomatoParaTag(){
+        if(tag != null){
+            String expressao = tag.getExpressao();
+            Stack pilha = new Stack();
+            int i = 0;
+            String aux;
+            while(i != expressao.length()){
+                aux = "";
+                aux += expressao.charAt(i);
+                if(!"+".equals(aux) && !".".equals(aux) && !"*".equals(aux)){
+                    Estado estadoInicial = new Estado();
+                    Estado estadoFinal = new Estado();
+                    estadoInicial.estadoInicial = true;
+                    estadoFinal.estadoFinal = true;
+                    estadoInicial.criarTransicao(aux, estadoFinal);
+                }
+                i++;
+            }
+        }
+    }
+    
     void ReconheceAlfabeto() {
-        for (int i = 0; i < expressao.length(); i++) {
-            if (expressao.charAt(i) != '+' && expressao.charAt(i) != '.' && expressao.charAt(i) != '*' && expressao.charAt(i) != '\\') {
-                alfabeto.add(expressao.charAt(i));
-            }
-        }
-        Collections.sort(alfabeto);
-        //alfabeto.distinct();
+//        for (int i = 0; i < expressao.length(); i++) {
+//            if (expressao.charAt(i) != '+' && expressao.charAt(i) != '.' && expressao.charAt(i) != '*' && expressao.charAt(i) != '\\') {
+//                alfabeto.add(expressao.charAt(i));
+//            }
+//        }
+//        Collections.sort(alfabeto);
+//        //alfabeto.distinct();
     }
 
-    boolean ValidaExpressao() {
-        Stack<String> pilha = new Stack<String>();
-        int i = 0;
-        boolean valida = true;
-        
-        while (expressao.charAt(i) != '\0') {
-            String aux = "";
-            aux += expressao.charAt(i);
-            if (aux == "\\") {
-
-            } else if (aux != "+" && aux != "." && aux != "*") {
-                pilha.push(aux);
-            } else if (aux == "+") {
-                String a;
-                String b;
-                if (!pilha.empty()) {
-                    a = pilha.pop();
-                } else {
-                    valida = false;
-                    break;
-                }
-
-                if (!pilha.empty()) {
-                    b = pilha.pop();
-                } else {
-                    valida = false;
-                    break;
-                }
-                pilha.push(b + "+" + a);
-            } else if (aux == ".") {
-                String a;
-                String b;
-                if (!pilha.empty()) {
-                    a = pilha.pop();
-                } else {
-                    valida = false;
-                    break;
-                }
-
-                if (!pilha.empty()) {
-                    b = pilha.pop();
-                } else {
-                    valida = false;
-                    break;
-                }
-                pilha.push(b + "." + a);
-            } else if (aux == "*") {
-                String a;
-                if (!pilha.empty()) {
-                    a = pilha.pop();
-                } else {
-                    valida = false;
-                    break;
-                }
-                pilha.push("(" + a + ")*");
-            }
-            i++;
-        }
-        String expressao2;
-        if (!pilha.empty()) {
-            // Teste: cout << expressao2 << endl;
-            expressao2 = pilha.pop();
-        }
-        if (pilha.empty() && valida) {
-            //Teste: cout << "Expressao: " << expressao2 << endl;
-            return true;
-        } else {
-            return false;
-        }
-    }
-    
-    void ExibirAlfabeto(){
-    for(int i = 0; i < alfabeto.size(); i++){
-        System.out.println(i + "");
-    }
-        System.out.println("");
-}
-    
-    
-    
-    
-    
-    String GetExpressao() {
-        return expressao;
-    }
-
-    String GetTag() {
-        return tag;
-    }
 }
