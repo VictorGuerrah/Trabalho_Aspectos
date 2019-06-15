@@ -5,6 +5,7 @@
  */
 package aspectos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,9 +13,25 @@ import java.util.List;
  * @author reisd
  */
 public class Transicao {
-    private List<String> simbolos;
+    private List<Character> simbolos;
+    private Estado destino;
     
-    void Transicao(){
-        
+    Transicao(String simbolos, Estado destino){
+        this.simbolos = new ArrayList<Character>();
+        for (int i = 0; i < simbolos.length(); i++) {
+            
+            this.simbolos.add(simbolos.charAt(i));
+        }
+        this.destino = destino;
+    }
+    
+    public void Teste(){
+        System.out.println("Tamanho conjunto de simbolos: " + simbolos.size());
+        for (int i = 0; i < simbolos.size(); i++) {
+            System.out.print(simbolos.get(i) + " ");
+            
+        }
+        System.out.println("");
+        destino.Teste();
     }
 }

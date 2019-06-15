@@ -34,8 +34,14 @@ public class Automato {
         this.tag = tag;
 
     }
-    Automato(Estado estadoInicial){
+    Automato(Estado estadoInicial, Estado estadoFinal){
+        this.alfabeto = new ArrayList<Character>();
+        this.conjuntoEstados = new ArrayList<Estado>();
+        this.estadosIniciais = new ArrayList<Estado>();
+        this.estadosFinais =  new ArrayList<Estado>();
+        
         this.estadosIniciais.add(estadoInicial);
+        this.estadosFinais.add(estadoFinal);
     }
     
     private void criarAtuomatoParaTag(){
@@ -59,6 +65,17 @@ public class Automato {
         }
     }
     
+    void Teste(){
+        System.out.println("Tamanho estadosIniciais: " + estadosIniciais.size());
+        System.out.println("Tamanho estadosFinais: " + estadosFinais.size());
+        System.out.println("Tamanho conjuntoEstados: " + this.conjuntoEstados.size());
+        
+        System.out.println("outros testes");
+        for (int i = 0; i < estadosIniciais.size(); i++) {
+            estadosIniciais.get(i).Teste();
+        }
+        
+    }
     void ReconheceAlfabeto() {
 //        for (int i = 0; i < expressao.length(); i++) {
 //            if (expressao.charAt(i) != '+' && expressao.charAt(i) != '.' && expressao.charAt(i) != '*' && expressao.charAt(i) != '\\') {

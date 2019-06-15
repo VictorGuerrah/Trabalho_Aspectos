@@ -95,21 +95,24 @@ public class Tag {
         return valida;
     }
     
-    public void criarAutomato(){
+    public Automato criarAutomato(){
         if(expressao != null){
             Stack pilha = new Stack();
             int i = 0;
             String aux;
             while(i != expressao.length()){
+//                System.out.println("testeeeee");
                 aux = "";
                 aux += expressao.charAt(i);
                 if(!"+".equals(aux) && !".".equals(aux) && !"*".equals(aux)){
+//                    System.out.println("teste3");
                     Estado estadoInicial = new Estado();
                     Estado estadoFinal = new Estado();
                     estadoInicial.estadoInicial = true;
                     estadoFinal.estadoFinal = true;
+                    
                     estadoInicial.criarTransicao(aux, estadoFinal);
-                    Automato automato = new Automato(estadoInicial);
+                    Automato automato = new Automato(estadoInicial, estadoFinal);
                     pilha.push(automato);
                 }
                 else if("+".equals(aux)){
@@ -122,15 +125,38 @@ public class Tag {
                         Estado estadoFinal = new Estado();
                         estadoInicial.estadoInicial = true;
                         estadoFinal.estadoFinal = true;
-                        List<Estado> estadosIniciais = aux1.estadosIniciais;
+                        List<Estado> estadosIniciais1 = aux2.estadosIniciais;
+                        List<Estado> estadosIniciais2 = aux1.estadosIniciais;
+                        List<Estado> estadosFinais1 = aux2.estadosFinais;
+                        List<Estado> estadosFinais2 = aux1.estadosFinais;
+//                        aux1.estadosIniciais.clear();
+//                        aux2.estadosIniciais.clear();
+//                        aux1.estadosFinais.clear();
+//                        aux2.estadosFinais.clear();
+                        for (int j = 0; j < estadosIniciais1.size(); j++) {
+                            estadoInicial.criarTransicao("\\", estadosIniciais1.get(j));
+                        }
+                        for (int j = 0; j < estadosIniciais2.size(); j++) {
+                            estadoInicial.criarTransicao("\\", estadosIniciais2.get(j));
+                        }
+                        for (int j = 0; j < estadosFinais1.size(); j++) {
+                            estadosFinais1.get(j).criarTransicao("\\", estadoFinal);
+                        }
+                        for (int j = 0; j < estadosFinais2.size(); j++) {
+                            estadosFinais2.get(j).criarTransicao("\\", estadoFinal);
+                        }
+                        Automato novoAutomato = new Automato(estadoInicial, estadoFinal);
+                        pilha.push(novoAutomato);
                     }
-                    else{
+                    else if(".".equals(aux)){
                         
                     }
                 }
                 i++;
             }
+            return (Automato) pilha.pop();
         }
+        return null;
     }
     
     

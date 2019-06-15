@@ -5,6 +5,7 @@
  */
 package aspectos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -16,14 +17,25 @@ public class Estado {
     public boolean estadoInicial;
     List<Transicao> transicoes;
     
-    void Estado(){
+    Estado(){
         estadoFinal = false;
         estadoInicial = false;
+        transicoes = new ArrayList<Transicao>();
     }
     
     public void criarTransicao(String simbolo, Estado destino){
-        
+        //System.out.println("teste1");
+        Transicao novaTransicao = new Transicao(simbolo, destino);
+//        System.out.println("teste2");
+        this.transicoes.add(novaTransicao);
+//        System.out.println("teste3");
     }
-    
+    public void Teste(){
+        System.out.println("Tamanho transicoes: " + transicoes.size());
+        for(int i = 0; i < transicoes.size(); i++){
+            System.out.println("Transicao " + i);
+            transicoes.get(i).Teste();
+        }
+    }
     
 }

@@ -141,7 +141,9 @@ public class Comandos {
                 if(tag.validarExpressao()){
                     System.out.println("Expressao aceita\n");
                     tags.add(tag);
-                    Automato automato = new Automato(tag);
+                    System.out.println("Teste");
+                    Automato automato = tag.criarAutomato();
+                    automato.Teste();
                 }
                 else{
                     System.out.println("Expressao rejeitada\n");
