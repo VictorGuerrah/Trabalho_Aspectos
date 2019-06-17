@@ -16,9 +16,10 @@ import java.util.Scanner;
  */
 public class Manager {
     List<Tag> tags;
-    
+    List<Automato> automatos;
     Manager(){
         tags = new ArrayList<Tag>();
+        automatos = new ArrayList<Automato>();
     }
     
     public void Start() throws IOException{
@@ -28,7 +29,7 @@ public class Manager {
         while(true){
             System.out.println("Digite o comando:");
             comando = input.nextLine();
-            comandos.realizarComando(comando, tags);
+            comandos.realizarComando(comando, tags, automatos);
             System.out.println("Tamanho de tags: " + tags.size());
         }
     }

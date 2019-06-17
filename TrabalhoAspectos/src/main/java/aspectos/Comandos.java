@@ -23,7 +23,7 @@ public class Comandos {
         
     }
     
-    public void realizarComando(String comando, List<Tag> tags) throws IOException{
+    public void realizarComando(String comando, List<Tag> tags, List<Automato> automatos) throws IOException{
         int i = 0;
         String complemento = "";
         if(comando.length() >= 2){
@@ -64,13 +64,15 @@ public class Comandos {
                 }
                 else if(tipo == 'l'){
                     System.out.println("Complemento: " + complemento);
-                    carregarTags(complemento, tags);
+                    carregarTags(complemento, tags, automatos);
                 }
                 else if(tipo == 'o'){
 
                 }
                 else if(tipo == 'p'){
-
+                    System.out.println("Comando: " + comando);
+                    System.out.println("Complemento: " + complemento);
+                    classificarString(complemento, automatos);
                 }
                 else if(tipo == 's'){
                     System.out.println("Complemento: " + complemento);
@@ -82,15 +84,26 @@ public class Comandos {
             }
             //Criação de tag
             else{
-                criarTag(comando, tags);
+                criarTag(comando, tags, automatos);
                 
             }
         }
 
     }
     
-    public void classificarString(){
-        
+    public void classificarString(String complemento, List<Automato> automatos){
+        String aux;
+        int i = 0;
+        int j = 0;
+        while(i < complemento.length()){
+            aux = "";
+            aux += complemento.charAt(i);
+            for (int k = 0; k < automatos.size(); k++) {
+            }
+            
+            
+            i++;
+        }
     }
     
     public void sair(){
@@ -98,14 +111,13 @@ public class Comandos {
         System.exit(0);
     }
     
-    public void carregarTags(String complemento, List<Tag> tags) throws FileNotFoundException, IOException{
-        
+    public void carregarTags(String complemento, List<Tag> tags, List<Automato> automatos) throws FileNotFoundException, IOException{
         File file = new File(complemento);
         BufferedReader br = new BufferedReader(new FileReader(file));
         String str;
         while((str = br.readLine()) != null){
             System.out.println(str);
-            criarTag(str, tags);
+            criarTag(str, tags, automatos);
         }
     }
     
@@ -125,7 +137,7 @@ public class Comandos {
         
     }
     
-    public void criarTag(String input, List<Tag> tags){
+    public void criarTag(String input, List<Tag> tags, List<Automato> automatos){
         System.out.println("Expressao: " + input);
         String array[] = input.split(": ");
         String nome;
@@ -141,8 +153,9 @@ public class Comandos {
                 if(tag.validarExpressao()){
                     System.out.println("Expressao aceita\n");
                     tags.add(tag);
-                    System.out.println("Teste");
                     Automato automato = tag.criarAutomato();
+                    automato.setTag(tag);
+                    automatos.add(automato);
                     automato.Teste();
                 }
                 else{

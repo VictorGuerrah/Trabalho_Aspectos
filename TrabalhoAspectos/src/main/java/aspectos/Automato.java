@@ -32,7 +32,6 @@ public class Automato {
 
     Automato(Tag tag) {
         this.tag = tag;
-
     }
     Automato(Estado estadoInicial, Estado estadoFinal){
         this.alfabeto = new ArrayList<Character>();
@@ -84,6 +83,18 @@ public class Automato {
 //        }
 //        Collections.sort(alfabeto);
 //        //alfabeto.distinct();
+    }
+    
+    void setTag(Tag tag){
+        this.tag = tag;
+    }
+    
+    boolean validarEntrada(String entrada){
+        String aux = "";
+        int i = 0;
+        
+        
+        return false;
     }
 
 }
