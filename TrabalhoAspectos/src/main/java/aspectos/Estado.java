@@ -24,11 +24,8 @@ public class Estado {
     }
     
     public void criarTransicao(String simbolo, Estado destino){
-        //System.out.println("teste1");
         Transicao novaTransicao = new Transicao(simbolo, destino);
-//        System.out.println("teste2");
         this.transicoes.add(novaTransicao);
-//        System.out.println("teste3");
     }
     public void Teste(){
         System.out.println("Tamanho transicoes: " + transicoes.size());

@@ -30,18 +30,18 @@ public class Comandos {
             if(comando.charAt(i) == ':'){
                 i++;
                 char tipo = comando.charAt(i);
-                if(tipo == 'q'){
-                    i++;
-                    if(comando.length() == 2 || (comando.length() == 3 && comando.charAt(i) == ' ')){
-                        sair();
-                    }
-                }
-                else if(tipo == 'a'){
-                    System.out.println(tags.size());
-                    for(int j = 0; j < tags.size(); j++){
-                        tags.get(j).exibirTag();
-                    }
-                }
+//                if(tipo == 'q'){
+//                    i++;
+//                    if(comando.length() == 2 || (comando.length() == 3 && comando.charAt(i) == ' ')){
+//                        sair();
+//                    }
+//                }
+//                else if(tipo == 'a'){
+//                    System.out.println(tags.size());
+//                    for(int j = 0; j < tags.size(); j++){
+//                        tags.get(j).exibirTag();
+//                    }
+//                }
                 i++;
                 //Guarda na variável 'complemento' a segunda parte do comando que nao seja ':q'
                 //Verifica se o comando tem tamanho maior que 2 e verifica se o terceiro

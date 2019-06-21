@@ -5,11 +5,6 @@
  */
 package aspectos;
 
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.lang.reflect.Array;
-import java.util.Scanner;
 import java.util.*;
 import java.util.List;
 import java.util.ArrayList;
@@ -23,9 +18,9 @@ public class Automato {
     //private String tag;
     //private String expressao;
     private List<Character> alfabeto;
-    private List<Estado> conjuntoEstados;
-    public List<Estado> estadosIniciais;
-    public List<Estado> estadosFinais;
+    public List<Estado> conjuntoEstados;
+    public Estado estadoInicial;
+    public Estado estadoFinal;
     private String nomeTag;
     private Tag tag = null;
     //private List<Transicao> conjuntoTransicao;
@@ -36,11 +31,10 @@ public class Automato {
     Automato(Estado estadoInicial, Estado estadoFinal){
         this.alfabeto = new ArrayList<Character>();
         this.conjuntoEstados = new ArrayList<Estado>();
-        this.estadosIniciais = new ArrayList<Estado>();
-        this.estadosFinais =  new ArrayList<Estado>();
-        
-        this.estadosIniciais.add(estadoInicial);
-        this.estadosFinais.add(estadoFinal);
+        conjuntoEstados.add(estadoInicial);
+        conjuntoEstados.add(estadoFinal);
+        this.estadoInicial = estadoInicial;
+        this.estadoFinal = estadoFinal;
     }
     
     private void criarAtuomatoParaTag(){
@@ -65,14 +59,14 @@ public class Automato {
     }
     
     void Teste(){
-        System.out.println("Tamanho estadosIniciais: " + estadosIniciais.size());
-        System.out.println("Tamanho estadosFinais: " + estadosFinais.size());
+//        System.out.println("Tamanho estadosIniciais: " + estadosIniciais.size());
+//        System.out.println("Tamanho estadosFinais: " + estadosFinais.size());
         System.out.println("Tamanho conjuntoEstados: " + this.conjuntoEstados.size());
         
         System.out.println("outros testes");
-        for (int i = 0; i < estadosIniciais.size(); i++) {
-            estadosIniciais.get(i).Teste();
-        }
+//        for (int i = 0; i < estadosIniciais.size(); i++) {
+//            //estadosIniciais.get(i).Teste();
+//        }
         
     }
     void ReconheceAlfabeto() {
@@ -89,12 +83,5 @@ public class Automato {
         this.tag = tag;
     }
     
-    boolean validarEntrada(String entrada){
-        String aux = "";
-        int i = 0;
-        
-        
-        return false;
-    }
 
 }

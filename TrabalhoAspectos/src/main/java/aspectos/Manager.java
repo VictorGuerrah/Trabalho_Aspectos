@@ -26,7 +26,7 @@ public class Manager {
         String comando = "";
         Scanner input = new Scanner(System.in);
         Comandos comandos = new Comandos();
-        while(true){
+        while(!":q".equals(comando)){
             System.out.println("Digite o comando:");
             comando = input.nextLine();
             comandos.realizarComando(comando, tags, automatos);
