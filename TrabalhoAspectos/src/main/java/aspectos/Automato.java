@@ -83,5 +83,11 @@ public class Automato {
         this.tag = tag;
     }
     
+    
+    public Estado reconhcerPalavra(String palavra){
+        
+        
+        return null;
+    }
 
 }

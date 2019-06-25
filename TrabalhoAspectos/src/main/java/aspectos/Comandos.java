@@ -11,6 +11,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -92,17 +93,26 @@ public class Comandos {
     }
     
     public void classificarString(String complemento, List<Automato> automatos){
-        String aux;
+        String aux = "";
         int i = 0;
         int j = 0;
+        boolean []automatosAceitos = new boolean[automatos.size()];
+        List <Integer>automatosAceitoss = new ArrayList<Integer>();
         while(i < complemento.length()){
-            aux = "";
             aux += complemento.charAt(i);
+            boolean reconheceu = false;
             for (int k = 0; k < automatos.size(); k++) {
+                if(automatos.get(k).reconhcerPalavra(aux) != null){
+                    automatosAceitoss.add(k);
+                }
             }
-            
-            
-            i++;
+            if(!automatosAceitoss.isEmpty()){
+                i++;
+            }
+            else{
+                j++;
+                i = j;
+            }
         }
     }
     
