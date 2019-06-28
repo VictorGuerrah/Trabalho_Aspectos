@@ -16,8 +16,17 @@ public class Estado {
     public boolean estadoFinal;
     public boolean estadoInicial;
     public List<Transicao> transicoes;
+    public int id;
+    public static int idAtual = 0;
+
+    @Override
+    public String toString() {
+        return this.id + "";//To change body of generated methods, choose Tools | Templates.
+    }
     
     Estado(){
+        id = idAtual;
+        idAtual++;
         estadoFinal = false;
         estadoInicial = false;
         transicoes = new ArrayList<>();
