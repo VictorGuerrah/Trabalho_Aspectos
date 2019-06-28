@@ -130,10 +130,6 @@ public class Tag {
                     }
                 }
                 i++;
-                
-                
-                
-                
                 /*
                 else if("+".equals(aux)){
                     Automato aux1;

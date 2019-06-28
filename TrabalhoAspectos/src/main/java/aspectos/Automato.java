@@ -24,6 +24,7 @@ public class Automato {
     private String nomeTag;
     private Tag tag = null;
     //private List<Transicao> conjuntoTransicao;
+    private Estado estadoAtualVerificacao;
 
     Automato(Tag tag) {
         this.tag = tag;
@@ -35,6 +36,8 @@ public class Automato {
         conjuntoEstados.add(estadoFinal);
         this.estadoInicial = estadoInicial;
         this.estadoFinal = estadoFinal;
+        
+        this.estadoAtualVerificacao = null;
     }
     
     private void criarAtuomatoParaTag(){
@@ -85,9 +88,28 @@ public class Automato {
     
     
     public Estado reconhcerPalavra(String palavra){
-        
+        if(estadoAtualVerificacao == null){
+            Estado aux = estadoInicial;
+            buscaEmLargura(aux, palavra);
+        }
         
         return null;
+    }
+    
+    private void buscaEmLargura(Estado estado, String palavra){
+        for (int i = 0; i < estado.transicoes.size(); i++) {
+            if(estado.transicoes.get(i).realizaTransicao(palavra)){
+                buscaEmLargura(estado.transicoes.get(i).getEstadoDestino(), palavra);
+            }
+        }
+    }
+    
+    public String getTag(){
+        return null;
+    }
+    
+    public void resetarEstadoAtual(){
+        
     }
 
 }

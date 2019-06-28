@@ -95,24 +95,46 @@ public class Comandos {
     public void classificarString(String complemento, List<Automato> automatos){
         String aux = "";
         int i = 0;
-        int j = 0;
-        boolean []automatosAceitos = new boolean[automatos.size()];
-        List <Integer>automatosAceitoss = new ArrayList<Integer>();
+        List<String> tags = new ArrayList<>();
+        List<Integer> aceitos = new ArrayList<>();
         while(i < complemento.length()){
             aux += complemento.charAt(i);
-            boolean reconheceu = false;
-            for (int k = 0; k < automatos.size(); k++) {
-                if(automatos.get(k).reconhcerPalavra(aux) != null){
-                    automatosAceitoss.add(k);
+            List<Integer> aceitos2 = new ArrayList<>();
+            if(aceitos.isEmpty()){
+                for (int j = 0; j < automatos.size(); j++) {
+                    if(automatos.get(j).reconhcerPalavra(aux) != null)
+                        aceitos2.add(j);
                 }
             }
-            if(!automatosAceitoss.isEmpty()){
-                i++;
-            }
             else{
-                j++;
-                i = j;
+                for (int j = 0; j < aceitos.size(); j++) {
+                    if(automatos.get(aceitos.get(j)) != null)
+                        aceitos2.add(j);
+                }
             }
+            
+            
+            if(!aceitos2.isEmpty()){        //Se nao estiver vazio, algum automato reconhceu
+                i++;
+                aceitos.clear();
+                aceitos.addAll(aceitos2);
+            }
+            else{                           //Se aceitos2 estiver vazio, ou nenhum automato reconhceu, ou o próximo caractere não pertence a mesma tag
+                if(aceitos.isEmpty()){
+                    System.out.println("Nenhum automato reconhceu");
+                }
+                else{
+                    aux = "";
+                    for (int j = 0; j < aceitos.size(); j++) {
+                        aux += automatos.get(aceitos.get(j)).getTag() + "/";
+                    }
+                    tags.add(aux);
+                }
+                for (int j = 0; j < automatos.size(); j++) {
+                    automatos.get(j).resetarEstadoAtual();
+                }
+            }
+            aux = "";
         }
     }
     
@@ -162,6 +184,7 @@ public class Comandos {
                  Tag tag = new Tag(nome, expressao);
                 if(tag.validarExpressao()){
                     System.out.println("Expressao aceita\n");
+                    System.out.println(tag.expressao2);
                     tags.add(tag);
                     Automato automato = tag.criarAutomato();
                     automato.setTag(tag);

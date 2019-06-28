@@ -15,12 +15,12 @@ import java.util.List;
 public class Estado {
     public boolean estadoFinal;
     public boolean estadoInicial;
-    List<Transicao> transicoes;
+    public List<Transicao> transicoes;
     
     Estado(){
         estadoFinal = false;
         estadoInicial = false;
-        transicoes = new ArrayList<Transicao>();
+        transicoes = new ArrayList<>();
     }
     
     public void criarTransicao(String simbolo, Estado destino){

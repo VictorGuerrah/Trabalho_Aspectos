@@ -14,10 +14,12 @@ import java.util.List;
  */
 public class Transicao {
     private List<Character> simbolos;
+    private boolean consumiuPalavra;
     private Estado destino;
     
     Transicao(String simbolos, Estado destino){
-        this.simbolos = new ArrayList<Character>();
+        consumiuPalavra = false;
+        this.simbolos = new ArrayList<>();
         for (int i = 0; i < simbolos.length(); i++) {
             
             this.simbolos.add(simbolos.charAt(i));
@@ -33,5 +35,20 @@ public class Transicao {
         }
         System.out.println("");
         destino.Teste();
+    }
+    public boolean realizaTransicao(String palavra){
+        if(simbolos.get(0) == '/'){
+            consumiuPalavra = false;
+            return true;
+        }
+        else if(simbolos.get(0) == palavra.charAt(0)){
+            consumiuPalavra = true;
+            return true;
+        }
+        return false;
+    }
+    
+    public Estado getEstadoDestino(){
+        return this.destino;
     }
 }
