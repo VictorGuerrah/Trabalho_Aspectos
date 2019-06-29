@@ -32,7 +32,7 @@ public class Estado {
         transicoes = new ArrayList<>();
     }
     
-    public void criarTransicao(String simbolo, Estado destino){
+    public void criarTransicao(char simbolo, Estado destino){
         Transicao novaTransicao = new Transicao(simbolo, destino);
         this.transicoes.add(novaTransicao);
     }

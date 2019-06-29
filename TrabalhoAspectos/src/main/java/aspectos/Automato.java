@@ -8,6 +8,7 @@ package aspectos;
 import java.util.*;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Set;
 
 /**
  *
@@ -17,48 +18,27 @@ public class Automato {
 
     //private String tag;
     //private String expressao;
-    private List<Character> alfabeto;
     public List<Estado> conjuntoEstados;
     public Estado estadoInicial;
     public Estado estadoFinal;
-    private String nomeTag;
+    public Set<Estado> estadosAtuais;
+    
     private Tag tag = null;
     //private List<Transicao> conjuntoTransicao;
-    private Estado estadoAtualVerificacao;
+    private boolean podeReconhcer;
 
     Automato(Tag tag) {
         this.tag = tag;
     }
     Automato(Estado estadoInicial, Estado estadoFinal){
-        this.alfabeto = new ArrayList<Character>();
-        this.conjuntoEstados = new ArrayList<Estado>();
+        this.conjuntoEstados = new ArrayList<>();
         conjuntoEstados.add(estadoInicial);
         conjuntoEstados.add(estadoFinal);
         this.estadoInicial = estadoInicial;
         this.estadoFinal = estadoFinal;
+        this.estadosAtuais = new HashSet<>();
         
-        this.estadoAtualVerificacao = null;
-    }
-    
-    private void criarAtuomatoParaTag(){
-        if(tag != null){
-            String expressao = tag.getExpressao();
-            Stack pilha = new Stack();
-            int i = 0;
-            String aux;
-            while(i != expressao.length()){
-                aux = "";
-                aux += expressao.charAt(i);
-                if(!"+".equals(aux) && !".".equals(aux) && !"*".equals(aux)){
-                    Estado estadoInicial = new Estado();
-                    Estado estadoFinal = new Estado();
-                    estadoInicial.estadoInicial = true;
-                    estadoFinal.estadoFinal = true;
-                    estadoInicial.criarTransicao(aux, estadoFinal);
-                }
-                i++;
-            }
-        }
+        this.podeReconhcer = true;
     }
     
     void Teste(){
@@ -72,44 +52,64 @@ public class Automato {
 //        }
         
     }
-    void ReconheceAlfabeto() {
-//        for (int i = 0; i < expressao.length(); i++) {
-//            if (expressao.charAt(i) != '+' && expressao.charAt(i) != '.' && expressao.charAt(i) != '*' && expressao.charAt(i) != '\\') {
-//                alfabeto.add(expressao.charAt(i));
-//            }
-//        }
-//        Collections.sort(alfabeto);
-//        //alfabeto.distinct();
-    }
     
     void setTag(Tag tag){
         this.tag = tag;
     }
     
     
-    public Estado reconhcerPalavra(String palavra){
-        if(estadoAtualVerificacao == null){
-            Estado aux = estadoInicial;
-            buscaEmLargura(aux, palavra);
-        }
-        
-        return null;
-    }
-    
-    private void buscaEmLargura(Estado estado, String palavra){
-        for (int i = 0; i < estado.transicoes.size(); i++) {
-            if(estado.transicoes.get(i).realizaTransicao(palavra)){
-                buscaEmLargura(estado.transicoes.get(i).getEstadoDestino(), palavra);
+    public void reconhcerPalavra(char simbolo){
+        if(estadosAtuais.isEmpty()){
+            if(podeReconhcer){
+                Estado aux = estadoInicial;
+                estadosAtuais.addAll(buscaEmLargura(aux, simbolo));
+                if(estadosAtuais.isEmpty()){
+                    podeReconhcer = false;
+                }
             }
         }
+        else{
+            Iterator<Estado> it = estadosAtuais.iterator();
+            Set<Estado> setAux = new HashSet<>();
+            for(Estado estado : estadosAtuais){
+                setAux.addAll(buscaEmLargura(estado, simbolo));
+            }
+            estadosAtuais.clear();
+            estadosAtuais.addAll(setAux);
+        }
+    }
+    
+    private Set<Estado> buscaEmLargura(Estado estado, char simbolo){
+        Set <Estado>set =  new HashSet<>();
+        Set <Estado>setAux =  new HashSet<>();
+        for(Transicao transicao : estado.transicoes){
+            if(transicao.simbolo == simbolo){
+                setAux.add(transicao.getEstadoDestino());
+                setAux.addAll(buscaEmLargura(transicao.getEstadoDestino(), '\\'));
+            }
+            else if(transicao.simbolo == '\\'){
+                setAux.addAll(buscaEmLargura(transicao.getEstadoDestino(), simbolo));
+            }
+        }
+        set.addAll(setAux);
+        return set;
     }
     
     public String getTag(){
-        return null;
+        return this.tag.getTag();
     }
     
     public void resetarEstadoAtual(){
-        
+        podeReconhcer = true;
+        estadosAtuais.clear();
+    }
+    
+    public boolean reconhce(){
+        for (Estado estado : estadosAtuais) {
+            if(estado.estadoFinal)
+                return true;
+        }
+        return false;
     }
 
 }

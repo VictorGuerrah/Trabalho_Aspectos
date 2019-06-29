@@ -13,13 +13,14 @@ import java.util.List;
  * @author reisd
  */
 public class Transicao {
-    private char simbolo;
+    public char simbolo;
     //private char simbolo;
     private boolean consumiuPalavra;
     private Estado destino;
     
-    Transicao(String simbolos, Estado destino){
+    Transicao(char simbolo, Estado destino){
         consumiuPalavra = false;
+        this.simbolo = simbolo;
         //this.simbolo = new ArrayList<>();
 //        for (int i = 0; i < simbolos.length(); i++) {
 //            
@@ -36,7 +37,7 @@ public class Transicao {
 
     @Override
     public String toString() {
-        return "a"; //To change body of generated methods, choose Tools | Templates.
+        return simbolo + ""; //To change body of generated methods, choose Tools | Templates.
     }
     
     public boolean realizaTransicao(String palavra){

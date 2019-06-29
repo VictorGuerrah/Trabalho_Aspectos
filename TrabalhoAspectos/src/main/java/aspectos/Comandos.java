@@ -12,7 +12,9 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  *
@@ -93,49 +95,50 @@ public class Comandos {
     }
     
     public void classificarString(String complemento, List<Automato> automatos){
-        String aux = "";
+        char aux2;
         int i = 0;
         List<String> tags = new ArrayList<>();
-        List<Integer> aceitos = new ArrayList<>();
+        Set<Automato> automatosAceitos = new HashSet<>();
+        Set<Automato> automatosAceitos2 = new HashSet<>();
         while(i < complemento.length()){
-            aux += complemento.charAt(i);
-            List<Integer> aceitos2 = new ArrayList<>();
-            if(aceitos.isEmpty()){
-                for (int j = 0; j < automatos.size(); j++) {
-                    if(automatos.get(j).reconhcerPalavra(aux) != null)
-                        aceitos2.add(j);
-                }
+            automatosAceitos2.clear();
+            aux2 = complemento.charAt(i);
+            for (Automato automato : automatos) {
+                automato.reconhcerPalavra(aux2);
+                if(automato.reconhce())
+                    automatosAceitos2.add(automato);
+            }
+            if(!automatosAceitos2.isEmpty()){
+                automatosAceitos.addAll(automatosAceitos2);
+                i++;
             }
             else{
-                for (int j = 0; j < aceitos.size(); j++) {
-                    if(automatos.get(aceitos.get(j)) != null)
-                        aceitos2.add(j);
-                }
-            }
-            
-            
-            if(!aceitos2.isEmpty()){        //Se nao estiver vazio, algum automato reconhceu
-                i++;
-                aceitos.clear();
-                aceitos.addAll(aceitos2);
-            }
-            else{                           //Se aceitos2 estiver vazio, ou nenhum automato reconhceu, ou o próximo caractere não pertence a mesma tag
-                if(aceitos.isEmpty()){
-                    System.out.println("Nenhum automato reconhceu");
+                if(!automatosAceitos.isEmpty()){
+                    for(Automato automato : automatosAceitos){
+                        System.out.print(automato.getTag() + ",");
+                    }
+                    System.out.print(" | ");
                 }
                 else{
-                    aux = "";
-                    for (int j = 0; j < aceitos.size(); j++) {
-                        aux += automatos.get(aceitos.get(j)).getTag() + "/";
-                    }
-                    tags.add(aux);
+                    System.out.print(" 0 ");
+                    i++;
                 }
-                for (int j = 0; j < automatos.size(); j++) {
-                    automatos.get(j).resetarEstadoAtual();
-                }
-            }
-            aux = "";
+                automatosAceitos.clear();
+                for(Automato automato : automatos)
+                    automato.resetarEstadoAtual();
+            }    
         }
+        if(!automatosAceitos.isEmpty()){
+            for(Automato automato : automatosAceitos){
+                System.out.print(automato.getTag() + ",");
+            }
+            System.out.print(" | ");
+        }
+        else{
+            System.out.println(" 0 ");
+        }
+        for(Automato automato : automatos)
+            automato.resetarEstadoAtual();
     }
     
     public void sair(){

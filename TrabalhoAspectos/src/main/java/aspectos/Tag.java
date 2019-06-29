@@ -31,7 +31,7 @@ public class Tag {
     }
     
     public String getTag(){
-        return nome + ": " + expressao;
+        return nome;
     }
     
     public String getExpressao(){
@@ -99,15 +99,14 @@ public class Tag {
         if(expressao != null){
             Stack pilha = new Stack();
             int i = 0;
-            String aux;
+            char aux;
             while(i != expressao.length()){
-                aux = "";
-                aux += expressao.charAt(i);
-                if(!"+".equals(aux) && !".".equals(aux) && !"*".equals(aux)){
+                aux = expressao.charAt(i);
+                if(aux != '+' && aux != '.' && aux != '*'){
                     pilha.push(adicionarAutomatoPilha(aux));
                 }
                 else{
-                    if("*".equals(aux)){
+                    if(aux == '*'){
                         if(pilha.size() >= 1){
                             Automato automato = (Automato) pilha.pop();
                             Automato novoAutomato = criarAutomatoFechoKleene(automato);
@@ -118,7 +117,7 @@ public class Tag {
                         if(pilha.size() >= 2){
                             Automato aux2 = (Automato) pilha.pop();
                             Automato aux1 = (Automato) pilha.pop();
-                            if("+".equals(aux)){
+                            if(aux == '+'){
                                 Automato novoAutomato = criarAutomatoUniao(aux1, aux2);
                                 pilha.push(novoAutomato);
                             }
@@ -130,42 +129,13 @@ public class Tag {
                     }
                 }
                 i++;
-                /*
-                else if("+".equals(aux)){
-                    Automato aux1;
-                    Automato aux2;
-                    if(pilha.size() >= 2){
-                        aux2 = (Automato) pilha.pop();
-                        aux1 = (Automato) pilha.pop();
-                        Automato novoAutomato = criarAutomatoUniao(aux1, aux2);
-                        pilha.push(novoAutomato);
-                    }
-                }
-                else if(".".equals(aux)){
-                    Automato aux1;
-                    Automato aux2;
-                    if(pilha.size()>=2){
-                        aux1 = (Automato) pilha.pop();
-                        aux2 = (Automato) pilha.pop();
-                        Automato novoAutomato = criaAutomatoConcatenacao(aux1, aux2);
-                        pilha.push(novoAutomato);
-                    }
-                }
-                else if("*".equals(aux)){
-                    if(pilha.size() >= 1){
-                        Automato automato = (Automato) pilha.pop();
-                        Automato novoAutomato = criarAutomatoFechoKleene(automato);
-                        pilha.push(automato);
-                    }
-                }
-                i++;*/
             }
             return (Automato) pilha.pop();
         }
         return null;
     }
     
-    public Automato adicionarAutomatoPilha(String simbolo){
+    public Automato adicionarAutomatoPilha(char simbolo){
         Estado estadoInicial = new Estado();
         Estado estadoFinal = new Estado();
         estadoInicial.estadoInicial = true;
@@ -181,10 +151,10 @@ public class Tag {
         estadoInicial.estadoInicial = true;
         estadoFinal.estadoFinal = true;
         
-        estadoInicial.criarTransicao("\\", automato1.estadoInicial);
-        estadoInicial.criarTransicao("\\", automato2.estadoInicial);
-        automato1.estadoFinal.criarTransicao("\\", estadoFinal);
-        automato2.estadoFinal.criarTransicao("\\", estadoFinal);
+        estadoInicial.criarTransicao('\\', automato1.estadoInicial);
+        estadoInicial.criarTransicao('\\', automato2.estadoInicial);
+        automato1.estadoFinal.criarTransicao('\\', estadoFinal);
+        automato2.estadoFinal.criarTransicao('\\', estadoFinal);
         
         automato1.estadoInicial.estadoInicial = false;
         automato2.estadoInicial.estadoInicial = false;
@@ -198,7 +168,7 @@ public class Tag {
     }
     
     public Automato criaAutomatoConcatenacao(Automato automato1, Automato automato2){
-        automato1.estadoFinal.criarTransicao("\\", automato2.estadoInicial);
+        automato1.estadoFinal.criarTransicao('\\', automato2.estadoInicial);
         automato1.estadoFinal.estadoFinal = false;
         automato1.estadoFinal = automato2.estadoFinal;
         automato1.conjuntoEstados.addAll(automato2.conjuntoEstados);
@@ -207,7 +177,7 @@ public class Tag {
     
     
     public Automato criarAutomatoFechoKleene(Automato automato){
-        automato.estadoFinal.criarTransicao("//", automato.estadoInicial);
+        automato.estadoFinal.criarTransicao('\\', automato.estadoInicial);
         automato.estadoFinal.estadoFinal = false;
         automato.estadoFinal = automato.estadoInicial;
         automato.estadoInicial.estadoFinal = true;
