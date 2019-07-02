@@ -121,7 +121,7 @@ public class Tag {
                                 Automato novoAutomato = criarAutomatoUniao(aux1, aux2);
                                 pilha.push(novoAutomato);
                             }
-                            else if(".".equals(aux)){
+                            else if(aux == '.'){
                                 Automato novoAutomato = criaAutomatoConcatenacao(aux1, aux2);
                                 pilha.push(novoAutomato);
                             }
@@ -164,6 +164,7 @@ public class Tag {
         automato1.estadoInicial = estadoInicial;
         automato1.estadoFinal = estadoFinal;
         automato1.conjuntoEstados.addAll(automato2.conjuntoEstados);
+        automato1.resetarEstadoAtual();
         return automato1;
     }
     
@@ -172,6 +173,7 @@ public class Tag {
         automato1.estadoFinal.estadoFinal = false;
         automato1.estadoFinal = automato2.estadoFinal;
         automato1.conjuntoEstados.addAll(automato2.conjuntoEstados);
+        automato1.resetarEstadoAtual();
         return automato1;
     }
     
@@ -181,6 +183,7 @@ public class Tag {
         automato.estadoFinal.estadoFinal = false;
         automato.estadoFinal = automato.estadoInicial;
         automato.estadoInicial.estadoFinal = true;
+        automato.resetarEstadoAtual();
         return automato;
     }
     

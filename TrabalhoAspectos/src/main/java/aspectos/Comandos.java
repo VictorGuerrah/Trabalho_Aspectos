@@ -1,8 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Alunos:
+//Caio Vincenzo Reis Dima
+//Pedro Cotta Badaro
+//Victor Guerra Horta
 package aspectos;
 
 import java.io.BufferedReader;
@@ -63,7 +62,7 @@ public class Comandos {
                 
                 //
                 if(tipo == 'f'){
-                    
+                    classificarStringsDeArquivo(complemento, tags, automatos);
                 }
                 else if(tipo == 'l'){
                     System.out.println("Complemento: " + complemento);
@@ -73,8 +72,6 @@ public class Comandos {
 
                 }
                 else if(tipo == 'p'){
-                    System.out.println("Comando: " + comando);
-                    System.out.println("Complemento: " + complemento);
                     classificarString(complemento, automatos);
                 }
                 else if(tipo == 's'){
@@ -95,50 +92,74 @@ public class Comandos {
     }
     
     public void classificarString(String complemento, List<Automato> automatos){
+        System.out.println(complemento + ": ");
         char aux2;
         int i = 0;
-        List<String> tags = new ArrayList<>();
         Set<Automato> automatosAceitos = new HashSet<>();
         Set<Automato> automatosAceitos2 = new HashSet<>();
+        Set<Automato> podeReconhcer = new HashSet<>();
         while(i < complemento.length()){
-            automatosAceitos2.clear();
             aux2 = complemento.charAt(i);
-            for (Automato automato : automatos) {
+            for(Automato automato : automatos){
                 automato.reconhcerPalavra(aux2);
-                if(automato.reconhce())
-                    automatosAceitos2.add(automato);
             }
-            if(!automatosAceitos2.isEmpty()){
-                automatosAceitos.addAll(automatosAceitos2);
-                i++;
-            }
-            else{
-                if(!automatosAceitos.isEmpty()){
-                    for(Automato automato : automatosAceitos){
-                        System.out.print(automato.getTag() + ",");
-                    }
-                    System.out.print(" | ");
+            boolean algumPodeReconhcer = false;
+            for(Automato automato : automatos){
+                if(automato.podeReconhcer()){
+                    algumPodeReconhcer = true;
+                    i++;
+                    break;
                 }
-                else{
-                    System.out.print(" 0 ");
+            }
+            if(!algumPodeReconhcer){
+                if(!identificarTag(automatos)){
                     i++;
                 }
-                automatosAceitos.clear();
-                for(Automato automato : automatos)
+                for(Automato automato : automatos){
                     automato.resetarEstadoAtual();
-            }    
-        }
-        if(!automatosAceitos.isEmpty()){
-            for(Automato automato : automatosAceitos){
-                System.out.print(automato.getTag() + ",");
+                }
             }
-            System.out.print(" | ");
+            
+        }
+        identificarTag(automatos);
+        for(Automato automato : automatos){
+            automato.resetarEstadoAtual();
+        }
+        System.out.println("");
+    }
+    
+    public boolean identificarTag(List<Automato> automatos){
+        String maiorCadeia = "";
+        List<Automato> cadeias = new ArrayList<>();
+        for(Automato automato : automatos){
+            if(automato.getSubCadeia() != null){
+                if(automato.getSubCadeia().length() > maiorCadeia.length()){
+                    cadeias.clear();
+                    cadeias.add(automato);
+                    maiorCadeia = automato.getSubCadeia();
+                }
+                else if(automato.getSubCadeia().length() == maiorCadeia.length()){
+                    cadeias.add(automato);
+                }
+            }
+        }
+        if(cadeias.isEmpty()){
+            System.out.print("Nenhuma | ");
+            return false;
         }
         else{
-            System.out.println(" 0 ");
+            if(cadeias.size() > 1){
+                System.out.println("Mais de uma tag pode reconhcer a palavra");
+            }
+            else{
+                
+            }
+            for(Automato automato : cadeias){
+                System.out.print(automato.getTag() + " ");
+            }
+            System.out.print(" | ");
+            return true;
         }
-        for(Automato automato : automatos)
-            automato.resetarEstadoAtual();
     }
     
     public void sair(){
@@ -151,7 +172,6 @@ public class Comandos {
         BufferedReader br = new BufferedReader(new FileReader(file));
         String str;
         while((str = br.readLine()) != null){
-            System.out.println(str);
             criarTag(str, tags, automatos);
         }
     }
@@ -164,8 +184,13 @@ public class Comandos {
         file.close();
     }
     
-    public void classificarStringsDeArquivo(){
-        
+    public void classificarStringsDeArquivo(String complemento, List<Tag> tags, List<Automato> automatos) throws FileNotFoundException, IOException{
+        File file = new File(complemento);
+        BufferedReader br = new BufferedReader(new FileReader(file));
+        String str;
+        while((str = br.readLine()) != null){
+            classificarString(str, automatos);
+        }
     }
     
     public void salvarClassificacao(){
@@ -173,7 +198,7 @@ public class Comandos {
     }
     
     public void criarTag(String input, List<Tag> tags, List<Automato> automatos){
-        System.out.println("Expressao: " + input);
+        //System.out.println("Expressao: " + input);
         String array[] = input.split(": ");
         String nome;
         String expressao;
@@ -186,13 +211,13 @@ public class Comandos {
                 System.out.println("Exepressao: " + expressao);
                  Tag tag = new Tag(nome, expressao);
                 if(tag.validarExpressao()){
-                    System.out.println("Expressao aceita\n");
-                    System.out.println(tag.expressao2);
+                    System.out.println("Expressao aceita");
+                    //System.out.println(tag.expressao2);
                     tags.add(tag);
                     Automato automato = tag.criarAutomato();
                     automato.setTag(tag);
                     automatos.add(automato);
-                    automato.Teste();
+                    //automato.Teste();
                 }
                 else{
                     System.out.println("Expressao rejeitada\n");

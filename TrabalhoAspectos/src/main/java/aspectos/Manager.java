@@ -30,7 +30,7 @@ public class Manager {
             System.out.println("Digite o comando:");
             comando = input.nextLine();
             comandos.realizarComando(comando, tags, automatos);
-            System.out.println("Tamanho de tags: " + tags.size());
+            System.out.println("Tamanho de tags: " + tags.size() + "\n");
         }
     }
 }

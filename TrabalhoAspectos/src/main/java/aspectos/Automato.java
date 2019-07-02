@@ -23,6 +23,9 @@ public class Automato {
     public Estado estadoFinal;
     public Set<Estado> estadosAtuais;
     
+    private String subCadeiaReconhecida;
+    private String subCadeiaProcessada;
+    
     private Tag tag = null;
     //private List<Transicao> conjuntoTransicao;
     private boolean podeReconhcer;
@@ -37,20 +40,11 @@ public class Automato {
         this.estadoInicial = estadoInicial;
         this.estadoFinal = estadoFinal;
         this.estadosAtuais = new HashSet<>();
+        estadosAtuais.add(estadoInicial);
         
         this.podeReconhcer = true;
-    }
-    
-    void Teste(){
-//        System.out.println("Tamanho estadosIniciais: " + estadosIniciais.size());
-//        System.out.println("Tamanho estadosFinais: " + estadosFinais.size());
-        System.out.println("Tamanho conjuntoEstados: " + this.conjuntoEstados.size());
-        
-        System.out.println("outros testes");
-//        for (int i = 0; i < estadosIniciais.size(); i++) {
-//            //estadosIniciais.get(i).Teste();
-//        }
-        
+        this.subCadeiaReconhecida = null;
+        this.subCadeiaProcessada = null;
     }
     
     void setTag(Tag tag){
@@ -59,6 +53,28 @@ public class Automato {
     
     
     public void reconhcerPalavra(char simbolo){
+        if(podeReconhcer()){
+            if(subCadeiaProcessada == null)
+                subCadeiaProcessada = "";
+            subCadeiaProcessada += simbolo;
+            Set<Estado> setAux = new HashSet<>();
+            for(Estado estado : estadosAtuais){
+                setAux.addAll(buscaEmLargura(estado, simbolo));
+            }
+            estadosAtuais.clear();
+            estadosAtuais.addAll(setAux);
+            for(Estado estado : estadosAtuais){
+                if(estado.estadoFinal){
+                    subCadeiaReconhecida = subCadeiaProcessada;
+                }
+                
+            }
+        }
+        
+        
+        
+        
+        /*
         if(estadosAtuais.isEmpty()){
             if(podeReconhcer){
                 Estado aux = estadoInicial;
@@ -76,7 +92,7 @@ public class Automato {
             }
             estadosAtuais.clear();
             estadosAtuais.addAll(setAux);
-        }
+        }*/
     }
     
     private Set<Estado> buscaEmLargura(Estado estado, char simbolo){
@@ -102,6 +118,9 @@ public class Automato {
     public void resetarEstadoAtual(){
         podeReconhcer = true;
         estadosAtuais.clear();
+        estadosAtuais.add(estadoInicial);
+        subCadeiaReconhecida = null;
+        subCadeiaProcessada = null;
     }
     
     public boolean reconhce(){
@@ -110,6 +129,16 @@ public class Automato {
                 return true;
         }
         return false;
+    }
+    
+    public boolean podeReconhcer(){
+        if(estadosAtuais.isEmpty())
+            return false;
+        return true;
+    }
+    
+    public String getSubCadeia(){
+        return subCadeiaReconhecida;
     }
 
 }
