@@ -18,8 +18,8 @@ public class Manager {
     List<Tag> tags;
     List<Automato> automatos;
     Manager(){
-        tags = new ArrayList<Tag>();
-        automatos = new ArrayList<Automato>();
+        tags = new ArrayList<>();
+        automatos = new ArrayList<>();
     }
     
     public void Start() throws IOException{

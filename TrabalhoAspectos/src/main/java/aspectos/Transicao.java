@@ -5,9 +5,6 @@
  */
 package aspectos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 /**
  *
  * @author reisd

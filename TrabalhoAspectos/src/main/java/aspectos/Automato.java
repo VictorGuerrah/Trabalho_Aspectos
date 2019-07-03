@@ -67,7 +67,6 @@ public class Automato {
                 if(estado.estadoFinal){
                     subCadeiaReconhecida = subCadeiaProcessada;
                 }
-                
             }
         }
         

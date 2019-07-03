@@ -23,7 +23,6 @@ public class Main {
     
     public static void main(String[] args) throws IOException 
     {
-        
         Manager manager = new Manager();
         manager.Start();
         /*
@@ -31,11 +30,9 @@ public class Main {
         Scanner teclado = new Scanner(System.in);
         FileWriter arquivo = new FileWriter("arquivo11.txt");
         PrintWriter escreve = new PrintWriter(arquivo);
-        
         escreve.println("DADOS DENTRO DO TXT");
         escreve.println(99);
         escreve.println("32323232");
-        
         escreve.close();*/
     }
     

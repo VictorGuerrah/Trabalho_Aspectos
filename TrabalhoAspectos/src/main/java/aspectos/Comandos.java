@@ -11,9 +11,7 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 /**
  *
@@ -21,8 +19,10 @@ import java.util.Set;
  */
 public class Comandos {
     
+    private List<List<String>> listaClassificacoes;
+    
     Comandos(){
-        
+        listaClassificacoes = new ArrayList<>();
     }
     
     public void realizarComando(String comando, List<Tag> tags, List<Automato> automatos) throws IOException{
@@ -32,18 +32,6 @@ public class Comandos {
             if(comando.charAt(i) == ':'){
                 i++;
                 char tipo = comando.charAt(i);
-//                if(tipo == 'q'){
-//                    i++;
-//                    if(comando.length() == 2 || (comando.length() == 3 && comando.charAt(i) == ' ')){
-//                        sair();
-//                    }
-//                }
-//                else if(tipo == 'a'){
-//                    System.out.println(tags.size());
-//                    for(int j = 0; j < tags.size(); j++){
-//                        tags.get(j).exibirTag();
-//                    }
-//                }
                 i++;
                 //Guarda na variável 'complemento' a segunda parte do comando que nao seja ':q'
                 //Verifica se o comando tem tamanho maior que 2 e verifica se o terceiro
@@ -61,47 +49,48 @@ public class Comandos {
                 
                 
                 //
-                if(tipo == 'f'){
-                    classificarStringsDeArquivo(complemento, tags, automatos);
-                }
-                else if(tipo == 'l'){
-                    System.out.println("Complemento: " + complemento);
-                    carregarTags(complemento, tags, automatos);
-                }
-                else if(tipo == 'o'){
-
-                }
-                else if(tipo == 'p'){
-                    classificarString(complemento, automatos);
-                }
-                else if(tipo == 's'){
-                    System.out.println("Complemento: " + complemento);
-                    salvarTags(complemento, tags);
-                }
-                else{
-                    System.out.println("Comando incorreto");
+                switch (tipo) {
+                    case 'f':
+                        classificarStringsDeArquivo(complemento, tags, automatos);
+                        break;
+                    case 'l':
+                        System.out.println("Complemento: " + complemento);
+                        carregarTags(complemento, tags, automatos);
+                        break;
+                    case 'o':
+                        salvarClassificacao(complemento);
+                        break;
+                    case 'p':
+                        classificarString(complemento, automatos);
+                        break;
+                    case 's':
+                        System.out.println("Complemento: " + complemento);
+                        salvarTags(complemento, tags);
+                        break;
+                    case 'q':
+                        break;
+                    default:
+                        System.out.println("Comando incorreto");
+                        break;
                 }
             }
             //Criação de tag
             else{
                 criarTag(comando, tags, automatos);
-                
             }
         }
 
     }
     
     public void classificarString(String complemento, List<Automato> automatos){
-        System.out.println(complemento + ": ");
-        char aux2;
+        char aux;
         int i = 0;
-        Set<Automato> automatosAceitos = new HashSet<>();
-        Set<Automato> automatosAceitos2 = new HashSet<>();
-        Set<Automato> podeReconhcer = new HashSet<>();
+        List<String> classificacao =  new ArrayList<>();
+        classificacao.add(complemento);
         while(i < complemento.length()){
-            aux2 = complemento.charAt(i);
+            aux = complemento.charAt(i);
             for(Automato automato : automatos){
-                automato.reconhcerPalavra(aux2);
+                automato.reconhcerPalavra(aux);
             }
             boolean algumPodeReconhcer = false;
             for(Automato automato : automatos){
@@ -112,7 +101,7 @@ public class Comandos {
                 }
             }
             if(!algumPodeReconhcer){
-                if(!identificarTag(automatos)){
+                if(!identificarTag(automatos, classificacao)){
                     i++;
                 }
                 for(Automato automato : automatos){
@@ -121,14 +110,15 @@ public class Comandos {
             }
             
         }
-        identificarTag(automatos);
+        identificarTag(automatos, classificacao);
         for(Automato automato : automatos){
             automato.resetarEstadoAtual();
         }
+        listaClassificacoes.add(classificacao);
         System.out.println("");
     }
     
-    public boolean identificarTag(List<Automato> automatos){
+    public boolean identificarTag(List<Automato> automatos, List<String> classificacao){
         String maiorCadeia = "";
         List<Automato> cadeias = new ArrayList<>();
         for(Automato automato : automatos){
@@ -144,7 +134,8 @@ public class Comandos {
             }
         }
         if(cadeias.isEmpty()){
-            System.out.print("Nenhuma | ");
+            classificacao.add("Nenhum | ");
+            System.out.print("Nenhum | ");
             return false;
         }
         else{
@@ -155,8 +146,10 @@ public class Comandos {
                 
             }
             for(Automato automato : cadeias){
+                classificacao.add(automato.getTag() + " ");
                 System.out.print(automato.getTag() + " ");
             }
+            classificacao.add(" | ");
             System.out.print(" | ");
             return true;
         }
@@ -178,8 +171,8 @@ public class Comandos {
     
     public void salvarTags(String complemento, List<Tag> tags) throws FileNotFoundException, IOException{
         FileWriter file =  new FileWriter(complemento);
-        for (int i = 0; i < tags.size(); i++) {
-            file.write(tags.get(i).getTag() + "\n");
+        for (Tag tag : tags) {
+            file.write(tag.getTag() + "\n");
         }
         file.close();
     }
@@ -193,8 +186,25 @@ public class Comandos {
         }
     }
     
-    public void salvarClassificacao(){
-        
+    public void salvarClassificacao(String complemento) throws IOException, FileNotFoundException{
+        FileWriter file =  new FileWriter(complemento);
+        listaClassificacoes.forEach((lista) -> {
+            try {
+                int i = 0;
+                file.write(lista.get(i) + ":\n");
+                System.out.println(lista.get(i));
+                i++;
+                while(i < lista.size()){
+                    System.out.print(lista.get(i) + " ");
+                    file.write(lista.get(i));
+                    i++;
+                }
+                file.write("\n\n");
+            } catch (IOException ex) {
+                //arrumar
+            }
+        });
+        file.close();
     }
     
     public void criarTag(String input, List<Tag> tags, List<Automato> automatos){
