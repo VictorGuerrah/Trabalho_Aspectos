@@ -22,7 +22,7 @@ public class Comandos {
         listaClassificacoes = new ArrayList<>();
     }
     
-    public void realizarComando(String comando, List<Tag> tags, List<Automato> automatos) throws IOException{
+    public void realizarComando(String comando, List<Tag> tags, List<Automato> automatos){
         int i = 0;
         String complemento = "";
         if(comando.length() >= 2){
@@ -43,9 +43,6 @@ public class Comandos {
                 else{
                     System.out.println("Comando inexistente");
                 }
-                
-                
-                //
                 switch (tipo) {
                     case 'f':
                         classificarStringsDeArquivo(complemento, tags, automatos);
@@ -154,51 +151,79 @@ public class Comandos {
         System.exit(0);
     }
     
-    public void carregarTags(String complemento, List<Tag> tags, List<Automato> automatos) throws FileNotFoundException, IOException{
-        File file = new File(complemento);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String str;
-        while((str = br.readLine()) != null){
-            criarTag(str, tags, automatos);
-        }
-    }
-    
-    public void salvarTags(String complemento, List<Tag> tags) throws FileNotFoundException, IOException{
-        FileWriter file =  new FileWriter(complemento);
-        for (Tag tag : tags) {
-            file.write(tag.getTag() + "\n");
-        }
-        file.close();
-    }
-    
-    public void classificarStringsDeArquivo(String complemento, List<Tag> tags, List<Automato> automatos) throws FileNotFoundException, IOException{
-        File file = new File(complemento);
-        BufferedReader br = new BufferedReader(new FileReader(file));
-        String str;
-        while((str = br.readLine()) != null){
-            classificarString(str, automatos);
-        }
-    }
-    
-    public void salvarClassificacao(String complemento) throws IOException, FileNotFoundException{
-        FileWriter file =  new FileWriter(complemento);
-        listaClassificacoes.forEach((lista) -> {
-            try {
-                int i = 0;
-                file.write(lista.get(i) + ":\n");
-                System.out.println(lista.get(i));
-                i++;
-                while(i < lista.size()){
-                    System.out.print(lista.get(i) + " ");
-                    file.write(lista.get(i));
-                    i++;
-                }
-                file.write("\n\n");
-            } catch (IOException ex) {
-                //arrumar
+    public void carregarTags(String complemento, List<Tag> tags, List<Automato> automatos){
+        BufferedReader br = null;
+        try {
+            File file = new File(complemento);
+            br = new BufferedReader(new FileReader(file));
+            String str;
+            while((str = br.readLine()) != null){
+                criarTag(str, tags, automatos);
             }
-        });
+            br.close();
+        } catch (FileNotFoundException ex) {
+            System.out.println("Nao foir possivel achar o arquivo");
+        } catch (IOException ex) {
+            System.out.println("Nao foir possivel ler de arquivo");
+        }
+    }
+    
+    public void salvarTags(String complemento, List<Tag> tags){
+        FileWriter file =  null;
+        try {
+            file = new FileWriter(complemento);
+            for (Tag tag : tags) {
+                file.write(tag.getTag() + "\n");
+            }
+            file.close();
+        } catch (IOException ex) {
+            System.out.println("Nao foi  possivel escrever no arquivo");
+        }
+    }
+    
+    public void classificarStringsDeArquivo(String complemento, List<Tag> tags, List<Automato> automatos){
+        File file = new File(complemento);
+        BufferedReader br;
+        try {
+            br = new BufferedReader(new FileReader(file));
+            String str;
+                while((str = br.readLine()) != null){
+                    classificarString(str, automatos);
+                }
+        } catch (FileNotFoundException ex) {
+            System.out.println("Nao foi possivel abrir arquivo");
+        } catch (IOException ex) {
+            System.out.println("Nao foi possivel ler arquivo");
+        }
+        
+    }
+    
+    public void salvarClassificacao(String complemento){
+        FileWriter file;
+        try {
+            file = new FileWriter(complemento);
+            listaClassificacoes.forEach((lista) -> {
+                try {
+                    int i = 0;
+                    file.write(lista.get(i) + ":\n");
+                    System.out.println(lista.get(i));
+                    i++;
+                    while(i < lista.size()){
+                        System.out.print(lista.get(i) + " ");
+                        file.write(lista.get(i));
+                        i++;
+                    }
+                    file.write("\n\n");
+                } catch (IOException ex) {
+                    System.out.println("Nao foir possivel salvar em arquivo");
+                }
+                
+            });
         file.close();
+        } catch (IOException ex) {
+            System.out.println("Nao foi possivel abrir o arquivo");
+        }
+        
     }
     
     public void criarTag(String input, List<Tag> tags, List<Automato> automatos){
@@ -210,8 +235,6 @@ public class Comandos {
             expressao = array[1];
             expressao = expressao.replace(" ", "");
             if(!expressao.isEmpty()){
-                System.out.println("Nome da tag: " + nome); 
-                System.out.println("Exepressao: " + expressao);
                  Tag tag = new Tag(nome, expressao);
                 if(tag.validarExpressao()){
                     System.out.println("Expressao aceita");

@@ -37,13 +37,14 @@ public class Tag {
         Stack pilha = new Stack();
         int i = 0;
         boolean valida  = true;
-        char aux;
+        String aux;
         while(i != expressao.length()){
-            aux = expressao.charAt(i);
-            if(aux != '+' && aux != '.' && aux != '*'){
+            aux = "";
+            aux += expressao.charAt(i);
+            if(!"+".equals(aux) && !".".equals(aux) && !"*".equals(aux)){
                 pilha.push(aux);
             }
-            else if(aux == '*'){
+            else if("*".equals(aux)){
                 if(pilha.empty()){
                     valida = false;
                     break;
@@ -62,7 +63,7 @@ public class Tag {
                     break;
                 }
                 String b = (String) pilha.pop();
-                if(aux == '+'){
+                if(!"+".equals(aux)){
                     pilha.push(b + "+" + a);
                 }
                 else{
