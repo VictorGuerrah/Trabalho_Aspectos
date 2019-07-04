@@ -1,8 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Alunos:
+//Caio Vincenzo Reis Dima   201776003
+//Pedro Cotta Badaro
+//Victor Guerra Horta
 package aspectos;
 
 /**
@@ -11,18 +10,12 @@ package aspectos;
  */
 public class Transicao {
     public char simbolo;
-    //private char simbolo;
     private boolean consumiuPalavra;
     private Estado destino;
     
     Transicao(char simbolo, Estado destino){
         consumiuPalavra = false;
         this.simbolo = simbolo;
-        //this.simbolo = new ArrayList<>();
-//        for (int i = 0; i < simbolos.length(); i++) {
-//            
-////            this.simbolo.add(simbolos.charAt(i));
-//        }
         this.destino = destino;
     }
     

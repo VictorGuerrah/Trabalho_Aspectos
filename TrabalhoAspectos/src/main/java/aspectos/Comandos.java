@@ -1,5 +1,5 @@
 //Alunos:
-//Caio Vincenzo Reis Dima
+//Caio Vincenzo Reis Dima   201776003
 //Pedro Cotta Badaro
 //Victor Guerra Horta
 package aspectos;
@@ -142,9 +142,6 @@ public class Comandos {
             if(cadeias.size() > 1){
                 System.out.println("Mais de uma tag pode reconhcer a palavra");
             }
-            else{
-                
-            }
             for(Automato automato : cadeias){
                 classificacao.add(automato.getTag() + " ");
                 System.out.print(automato.getTag() + " ");
@@ -208,7 +205,6 @@ public class Comandos {
     }
     
     public void criarTag(String input, List<Tag> tags, List<Automato> automatos){
-        //System.out.println("Expressao: " + input);
         String array[] = input.split(": ");
         String nome;
         String expressao;
@@ -222,12 +218,10 @@ public class Comandos {
                  Tag tag = new Tag(nome, expressao);
                 if(tag.validarExpressao()){
                     System.out.println("Expressao aceita");
-                    //System.out.println(tag.expressao2);
                     tags.add(tag);
                     Automato automato = tag.criarAutomato();
                     automato.setTag(tag);
                     automatos.add(automato);
-                    //automato.Teste();
                 }
                 else{
                     System.out.println("Expressao rejeitada\n");

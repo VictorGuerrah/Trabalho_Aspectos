@@ -1,8 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Alunos:
+//Caio Vincenzo Reis Dima   201776003
+//Pedro Cotta Badaro
+//Victor Guerra Horta
 package aspectos;
 
 import java.util.ArrayList;

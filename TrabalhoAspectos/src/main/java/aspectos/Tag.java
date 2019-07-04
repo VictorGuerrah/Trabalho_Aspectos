@@ -1,8 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Alunos:
+//Caio Vincenzo Reis Dima   201776003
+//Pedro Cotta Badaro
+//Victor Guerra Horta
 package aspectos;
 
 import java.util.Stack;
@@ -14,19 +13,19 @@ import java.util.Stack;
 public class Tag {
     String nome;
     String expressao;
-    String expressao2;
+    String expressaoAlterada;
 
     
     
     Tag(String nome, String expressao){
         this.nome = nome;
         this.expressao = expressao;
-        this.expressao2 = null;
+        this.expressaoAlterada = null;
     }
     
     public void exibirTag(){
         System.out.println("Nome: " + nome + "  Expressao: " + expressao);
-        System.out.println("Expressao2: " + expressao2 + "\n");
+        System.out.println("Expressao2: " + expressaoAlterada + "\n");
     }
     
     public String getTag(){
@@ -49,33 +48,24 @@ public class Tag {
                 pilha.push(aux);
             }
             else if("*".equals(aux)){
-                String a = null;
-                if(!pilha.empty()){
-                    a = (String) pilha.pop();
-                }
-                else{
+                if(pilha.empty()){
                     valida = false;
                     break;
                 }
+                String a = (String) pilha.pop();
                 pilha.push("(" + a + ")*");
             }
             else{
-                String a = null;
-                String b = null;
-                if(!pilha.empty()){
-                    a = (String) pilha.pop();
-                }
-                else{
+                if(pilha.isEmpty()){
                     valida = false;
                     break;
                 }
-                if(!pilha.empty()){
-                    b = (String) pilha.pop();
-                }
-                else{
+                String a = (String) pilha.pop();
+                if(pilha.isEmpty()){
                     valida = false;
                     break;
                 }
+                String b = (String) pilha.pop();
                 if("+".equals(aux)){
                     pilha.push(b + "+" + a);
                 }
@@ -85,11 +75,11 @@ public class Tag {
             }
             i++;
         }
-        if(!pilha.empty()){
+        if(pilha.size() == 1){
             aux = (String) pilha.pop();
-            this.expressao2 = aux;
+            this.expressaoAlterada = aux;
         }
-        if(!pilha.empty())
+        else
             valida = false;
         return valida;
     }

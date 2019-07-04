@@ -1,13 +1,10 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//Alunos:
+//Caio Vincenzo Reis Dima   201776003
+//Pedro Cotta Badaro
+//Victor Guerra Horta
 package aspectos;
 
 import java.util.*;
-import java.util.List;
-import java.util.ArrayList;
 import java.util.Set;
 
 /**
@@ -15,10 +12,7 @@ import java.util.Set;
  * @author pedro
  */
 public class Automato {
-
-    //private String tag;
-    //private String expressao;
-    public List<Estado> conjuntoEstados;
+    public Set<Estado> conjuntoEstados;
     public Estado estadoInicial;
     public Estado estadoFinal;
     public Set<Estado> estadosAtuais;
@@ -27,14 +21,13 @@ public class Automato {
     private String subCadeiaProcessada;
     
     private Tag tag = null;
-    //private List<Transicao> conjuntoTransicao;
     private boolean podeReconhcer;
 
     Automato(Tag tag) {
         this.tag = tag;
     }
     Automato(Estado estadoInicial, Estado estadoFinal){
-        this.conjuntoEstados = new ArrayList<>();
+        this.conjuntoEstados = new HashSet<>();
         conjuntoEstados.add(estadoInicial);
         conjuntoEstados.add(estadoFinal);
         this.estadoInicial = estadoInicial;
@@ -69,29 +62,6 @@ public class Automato {
                 }
             }
         }
-        
-        
-        
-        
-        /*
-        if(estadosAtuais.isEmpty()){
-            if(podeReconhcer){
-                Estado aux = estadoInicial;
-                estadosAtuais.addAll(buscaEmLargura(aux, simbolo));
-                if(estadosAtuais.isEmpty()){
-                    podeReconhcer = false;
-                }
-            }
-        }
-        else{
-            Iterator<Estado> it = estadosAtuais.iterator();
-            Set<Estado> setAux = new HashSet<>();
-            for(Estado estado : estadosAtuais){
-                setAux.addAll(buscaEmLargura(estado, simbolo));
-            }
-            estadosAtuais.clear();
-            estadosAtuais.addAll(setAux);
-        }*/
     }
     
     private Set<Estado> buscaEmLargura(Estado estado, char simbolo){
@@ -131,9 +101,7 @@ public class Automato {
     }
     
     public boolean podeReconhcer(){
-        if(estadosAtuais.isEmpty())
-            return false;
-        return true;
+        return !estadosAtuais.isEmpty();
     }
     
     public String getSubCadeia(){
