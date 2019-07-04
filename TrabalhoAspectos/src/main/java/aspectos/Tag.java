@@ -22,7 +22,7 @@ public class Tag {
     
     public void exibirTag(){
         System.out.println("Nome: " + nome + "  Expressao: " + expressao);
-        System.out.println("Expressao2: " + expressaoAlterada + "\n");
+        System.out.println("Expressao alterada: " + expressaoAlterada + "\n");
     }
     
     public String getTag(){
@@ -37,14 +37,13 @@ public class Tag {
         Stack pilha = new Stack();
         int i = 0;
         boolean valida  = true;
-        String aux;
+        char aux;
         while(i != expressao.length()){
-            aux = "";
-            aux += expressao.charAt(i);
-            if(!"+".equals(aux) && !".".equals(aux) && !"*".equals(aux)){
+            aux = expressao.charAt(i);
+            if(aux != '+' && aux != '.' && aux != '*'){
                 pilha.push(aux);
             }
-            else if("*".equals(aux)){
+            else if(aux == '*'){
                 if(pilha.empty()){
                     valida = false;
                     break;
@@ -63,7 +62,7 @@ public class Tag {
                     break;
                 }
                 String b = (String) pilha.pop();
-                if("+".equals(aux)){
+                if(aux == '+'){
                     pilha.push(b + "+" + a);
                 }
                 else{
@@ -73,8 +72,7 @@ public class Tag {
             i++;
         }
         if(pilha.size() == 1){
-            aux = (String) pilha.pop();
-            this.expressaoAlterada = aux;
+            this.expressaoAlterada = (String) pilha.pop();
         }
         else
             valida = false;

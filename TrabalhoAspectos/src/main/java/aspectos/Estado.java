@@ -32,12 +32,5 @@ public class Estado {
         Transicao novaTransicao = new Transicao(simbolo, destino);
         this.transicoes.add(novaTransicao);
     }
-    public void Teste(){
-        System.out.println("Tamanho transicoes: " + transicoes.size());
-        for(int i = 0; i < transicoes.size(); i++){
-            System.out.println("Transicao " + i);
-            transicoes.get(i).Teste();
-        }
-    }
     
 }

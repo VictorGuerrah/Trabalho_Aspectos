@@ -18,21 +18,8 @@ public class Transicao {
 
     @Override
     public String toString() {
-        return simbolo + ""; //To change body of generated methods, choose Tools | Templates.
+        return simbolo + "";
     }
-    
-    public boolean realizaTransicao(String palavra){
-        if(simbolo == '/'){
-            consumiuPalavra = false;
-            return true;
-        }
-        else if(simbolo == palavra.charAt(0)){
-            consumiuPalavra = true;
-            return true;
-        }
-        return false;
-    }
-    
     public Estado getEstadoDestino(){
         return this.destino;
     }
