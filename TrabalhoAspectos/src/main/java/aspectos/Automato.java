@@ -7,10 +7,7 @@ package aspectos;
 import java.util.*;
 import java.util.Set;
 
-/**
- *
- * @author pedro
- */
+
 public class Automato {
     public Set<Estado> conjuntoEstados;
     public Estado estadoInicial;
