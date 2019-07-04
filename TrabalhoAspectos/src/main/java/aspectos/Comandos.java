@@ -11,15 +11,19 @@ import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 
 public class Comandos {
     
+    private Set<String> nomesTags;
     private List<List<String>> listaClassificacoes;
     
     Comandos(){
         listaClassificacoes = new ArrayList<>();
+        nomesTags = new HashSet<>();
     }
     
     public void realizarComando(String comando, List<Tag> tags, List<Automato> automatos){
@@ -68,7 +72,6 @@ public class Comandos {
                 criarTag(comando, tags, automatos);
             }
         }
-
     }
     
     public void classificarString(String complemento, List<Automato> automatos){
@@ -157,9 +160,9 @@ public class Comandos {
             }
             br.close();
         } catch (FileNotFoundException ex) {
-            System.out.println("Nao foir possivel achar o arquivo");
+            System.out.println("Nao foi possivel achar o arquivo");
         } catch (IOException ex) {
-            System.out.println("Nao foir possivel ler de arquivo");
+            System.out.println("Nao foi possivel ler de arquivo");
         }
     }
     
@@ -230,8 +233,8 @@ public class Comandos {
             expressao = array[1];
             expressao = expressao.replace(" ", "");
             if(!expressao.isEmpty()){
-                 Tag tag = new Tag(nome, expressao);
-                if(tag.validarExpressao()){
+                Tag tag = new Tag(nome, expressao);
+                if(validaNome(nome) && tag.validarExpressao()){
                     System.out.println("Expressao aceita");
                     tags.add(tag);
                     Automato automato = tag.criarAutomato();
@@ -250,6 +253,14 @@ public class Comandos {
         else{
             System.out.println("Expressao rejeitada\n");
         }
-        
-    }    
+    }
+    
+    public boolean validaNome(String nome){
+        int atual = nomesTags.size();
+        nomesTags.add(nome);
+        if(nomesTags.size() != atual)
+            return true;
+        System.out.println("Ja existe uma tag com esse nome.");
+        return false;
+    }
 }
