@@ -21,8 +21,8 @@ public class Tag {
     }
     
     public void exibirTag(){
-        System.out.println("Nome: " + nome + "  Expressao: " + expressao);
-        System.out.println("Expressao alterada: " + expressaoAlterada + "\n");
+        System.out.println("[Info] Nome: " + nome + "  Expressao: " + expressao);
+        System.out.println("[Info] Expressao alterada: " + expressaoAlterada + "\n");
     }
     
     public String getTag(){

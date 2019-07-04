@@ -63,7 +63,7 @@ public class Comandos {
                     case 'q':
                         break;
                     default:
-                        System.out.println("Comando incorreto");
+                        System.out.println("[Erro] Comando incorreto");
                         break;
                 }
             }
@@ -100,7 +100,6 @@ public class Comandos {
                     automato.resetarEstadoAtual();
                 }
             }
-            
         }
         identificarTag(automatos, classificacao);
         for(Automato automato : automatos){
@@ -132,7 +131,7 @@ public class Comandos {
         }
         else{
             if(cadeias.size() > 1){
-                System.out.println("Mais de uma tag pode reconhcer a palavra");
+                System.out.println("[Warning] Mais de uma tag pode reconhcer a palavra");
             }
             for(Automato automato : cadeias){
                 classificacao.add(automato.getTag() + " ");
@@ -160,9 +159,9 @@ public class Comandos {
             }
             br.close();
         } catch (FileNotFoundException ex) {
-            System.out.println("Nao foi possivel achar o arquivo");
+            System.out.println("[Erro] Nao foi possivel achar o arquivo");
         } catch (IOException ex) {
-            System.out.println("Nao foi possivel ler de arquivo");
+            System.out.println("[Erro] Nao foi possivel ler de arquivo");
         }
     }
     
@@ -173,9 +172,10 @@ public class Comandos {
             for (Tag tag : tags) {
                 file.write(tag.getTag() + "\n");
             }
+            System.out.println("[Info] Arquivo salvo com sucesso");
             file.close();
         } catch (IOException ex) {
-            System.out.println("Nao foi  possivel escrever no arquivo");
+            System.out.println("[Erro] Nao foi  possivel escrever no arquivo");
         }
     }
     
@@ -189,9 +189,9 @@ public class Comandos {
                     classificarString(str, automatos);
                 }
         } catch (FileNotFoundException ex) {
-            System.out.println("Nao foi possivel abrir arquivo");
+            System.out.println("[Erro] Nao foi possivel abrir arquivo");
         } catch (IOException ex) {
-            System.out.println("Nao foi possivel ler arquivo");
+            System.out.println("[Erro] Nao foi possivel ler arquivo");
         }
         
     }
@@ -212,14 +212,15 @@ public class Comandos {
                         i++;
                     }
                     file.write("\n\n");
+                    System.out.println("[Info] Arquivo salvo com sucesso");
                 } catch (IOException ex) {
-                    System.out.println("Nao foir possivel salvar em arquivo");
+                    System.out.println("[Erro] Nao foi possivel salvar em arquivo");
                 }
                 
             });
         file.close();
         } catch (IOException ex) {
-            System.out.println("Nao foi possivel abrir o arquivo");
+            System.out.println("[Erro] Nao foi possivel abrir o arquivo");
         }
         
     }
@@ -235,23 +236,23 @@ public class Comandos {
             if(!expressao.isEmpty()){
                 Tag tag = new Tag(nome, expressao);
                 if(validaNome(nome) && tag.validarExpressao()){
-                    System.out.println("Expressao aceita");
+                    System.out.println("[Info] Expressao aceita");
                     tags.add(tag);
                     Automato automato = tag.criarAutomato();
                     automato.setTag(tag);
                     automatos.add(automato);
                 }
                 else{
-                    System.out.println("Expressao rejeitada\n");
+                    System.out.println("[Erro] Expressao rejeitada\n");
                 }
             }
             else
             {
-                System.out.println("Expressao rejeitada\n");
+                System.out.println("[Erro] Expressao rejeitada\n");
             }
         }
         else{
-            System.out.println("Expressao rejeitada\n");
+            System.out.println("[Erro] Expressao rejeitada\n");
         }
     }
     
@@ -260,7 +261,7 @@ public class Comandos {
         nomesTags.add(nome);
         if(nomesTags.size() != atual)
             return true;
-        System.out.println("Ja existe uma tag com esse nome.");
+        System.out.println("[Warning] Ja existe uma tag com esse nome.");
         return false;
     }
 }
