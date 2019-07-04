@@ -1,13 +1,10 @@
 //Alunos:
 //Caio Vincenzo Reis Dima   201776003
-//Pedro Cotta Badaro
-//Victor Guerra Horta
+//Pedro Cotta Badaro        201776014
+//Victor Guerra Horta       201776005
 package aspectos;
 
-/**
- *
- * @author reisd
- */
+
 public class Transicao {
     public char simbolo;
     private boolean consumiuPalavra;
@@ -17,12 +14,6 @@ public class Transicao {
         consumiuPalavra = false;
         this.simbolo = simbolo;
         this.destino = destino;
-    }
-    
-    public void Teste(){
-        
-        System.out.println("");
-        destino.Teste();
     }
 
     @Override
