@@ -13,10 +13,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- *
- * @author reisd
- */
+
 public class Comandos {
     
     private List<List<String>> listaClassificacoes;
