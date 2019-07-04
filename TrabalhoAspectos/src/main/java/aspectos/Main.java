@@ -4,8 +4,6 @@
 //Victor Guerra Horta       201776005
 package aspectos;
 import java.io.IOException;
-import java.util.*;
-import java.util.List;
 
 
 public class Main {

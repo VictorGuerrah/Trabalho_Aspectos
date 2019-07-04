@@ -40,15 +40,11 @@ public class Comandos {
                         i++;
                     }
                 }
-                else{
-                    System.out.println("Comando inexistente");
-                }
                 switch (tipo) {
                     case 'f':
                         classificarStringsDeArquivo(complemento, tags, automatos);
                         break;
                     case 'l':
-                        System.out.println("Complemento: " + complemento);
                         carregarTags(complemento, tags, automatos);
                         break;
                     case 'o':
@@ -58,7 +54,6 @@ public class Comandos {
                         classificarString(complemento, automatos);
                         break;
                     case 's':
-                        System.out.println("Complemento: " + complemento);
                         salvarTags(complemento, tags);
                         break;
                     case 'q':
